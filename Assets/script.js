@@ -1,5 +1,7 @@
+
+// Function for getting 5-day forecast for the city
 function getForecast(city) {
-    var queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=c2db56534504e0f832745a60ec594814";
+    var queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=c2db56534504e0f832745a60ec594814&units=imperial";
     $.ajax({
         url: queryURL,
         method: "GET",
@@ -9,6 +11,12 @@ function getForecast(city) {
                 if (data.list[i].dt_txt.indexOf("12:00:00") !== -1) {
                     var card = $("<div>");
                     var weatherFive = $("#weatherFive");
+                    $("<h2>").text(data.city.name).appendTo(card);
+                    $("<img>").attr("src", "http://openweathermap.org/img/w/" + list[0].weather[0].icon + ".png").appendTo(card);
+                    $("<h3>").text("Temperature: " +  data.list[0].main.temp + " °F").appendTo(card);
+                    $("<h3>").text("Humidity: " + data.list[0].main.humidity + "%").appendTo(card);
+                    card.appendTo(weatherFive);
+
                     // Append info to card, then append card to weatherFive at the end
                 }
             }
@@ -16,6 +24,7 @@ function getForecast(city) {
     })
 }
 
+// Function for getting daily weather for city
 function getDaily(city) {
     $("#currentWeather").empty();
     var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=c2db56534504e0f832745a60ec594814&units=imperial";
