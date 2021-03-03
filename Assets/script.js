@@ -1,4 +1,19 @@
 
+var local = JSON.parse(localStorage.getItem("searchHistory")) || [];
+var city = "" || local[0];
+getDaily(city);
+getForecast(city); 
+
+function showLocal() {
+    for (var i = 0; i < local.length; i++) {
+        var lineItem = $("<div>");
+        lineItem.addClass("list-group-item");
+        lineItem.text(local[i]);
+        $("#localCity").append(lineItem);
+    }
+}
+showLocal();
+
 // Function for getting 5-day forecast for the city
 function getForecast(city) {
     $("#weatherFive").empty();
@@ -72,6 +87,8 @@ function getDaily(city) {
 $("#cityBtn").on("click", function(e) {
     e.preventDefault;
     var search = $("#citySearch").val().trim();
+    local.unshift(search);
+    localStorage.setItem("searchHistory", JSON.stringify(local));
     if (search) {
         getForecast(search);
         getDaily(search);
