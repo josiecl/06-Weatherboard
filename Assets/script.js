@@ -14,6 +14,14 @@ function showLocal() {
 }
 showLocal();
 
+
+// Add event listener for click on local city
+$(document).on("click", "#localCity", function(e) {
+    e.preventDefault();
+    var search = $(this).text();
+    doSearch(search);
+});
+
 // Function for getting 5-day forecast for the city
 function getForecast(city) {
     $("#weatherFive").empty();
@@ -28,10 +36,12 @@ function getForecast(city) {
                     console.log(data.list[i].main.humidity);
                     var card = $("<div>");
                     var weatherFive = $("#weatherFive");
-                    $("<h2>").text(new Date(data.list[i].dt_txt).toLocaleDateString()).appendTo(card);
+                    card.addClass("col-md-2");
+                    card.addClass("card")
+                    $("<h3>").text(new Date(data.list[i].dt_txt).toLocaleDateString()).appendTo(card);
                     $("<img>").attr("src", "http://openweathermap.org/img/w/" + data.list[i].weather[0].icon + ".png").appendTo(card);
-                    $("<h3>").text("Temperature: " +  data.list[i].main.temp + " °F").appendTo(card);
-                    $("<h3>").text("Humidity: " + data.list[i].main.humidity + "%").appendTo(card);
+                    $("<h5>").text("Temperature: " +  data.list[i].main.temp + " °F").appendTo(card);
+                    $("<h5>").text("Humidity: " + data.list[i].main.humidity + "%").appendTo(card);
                     card.appendTo(weatherFive);
 
                     // Append info to card, then append card to weatherFive at the end
