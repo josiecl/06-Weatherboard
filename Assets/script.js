@@ -1,38 +1,70 @@
-
 var local = JSON.parse(localStorage.getItem("searchHistory")) || [];
 var city = "" || local[0];
 getDaily(city);
 getForecast(city); 
 
+// Function to show searches from local storage in a list
 function showLocal() {
+    var local = JSON.parse(localStorage.getItem("searchHistory")) || [];
     for (var i = 0; i < local.length; i++) {
         var lineItem = $("<div>");
-        lineItem.addClass("list-group-item");
+        lineItem.addClass("list-group-item list-group-item-action");
         lineItem.text(local[i]);
+        
         $("#localCity").append(lineItem);
+        
+        
     }
+
+    $(".list-group-item").on("click", function(){
+        getDaily($(this).text());
+        getForecast($(this).text());
+    })
 }
 showLocal();
 
 
 // Add event listener for click on local city
-$(document).on("click", "#localCity", function(e) {
-    e.preventDefault();
-    var search = $(this).text();
-    doSearch(search);
-});
+// $(document).on("click", "#localCity", function(e) {
+//     e.preventDefault();
+//     var search = $(this).text();
+//     doSearch(search);
+// });
+
+// Same as above but tried different method
+// $(lineItem).on("click", function(e) {
+//     e.preventDefault;
+//     var search = $(lineItem).val().trim();
+//     // local.unshift(search);
+//     // localStorage.setItem("searchHistory", JSON.stringify(local));
+//     if (search) {
+//         getForecast(search);
+//         getDaily(search);
+//     }
+//     else {}
+// })
 
 // Function for getting 5-day forecast for the city
 function getForecast(city) {
     $("#weatherFive").empty();
+    console.log("got here 1");
     var queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=c2db56534504e0f832745a60ec594814&units=imperial";
     $.ajax({
         url: queryURL,
         method: "GET",
         success: function (data) {
-            
+            console.log(data);
+
+            // Setting test1 =/= test2 so that when they are compared, it will only show new dates for the forecast
             for (var i = 0; i < data.list.length; i++) {
-                if (data.list[i].dt_txt.indexOf("12:00:00") !== -1) {
+                var test1 = data.list[i].dt_txt.split(" ");
+                if (i===0) {
+                    var test2 = 2;
+                }
+                else {
+                    var test2 = data.list[i-1].dt_txt.split(" ");
+                }
+                if (test1[0] !== test2[0]) {
                     console.log(data.list[i].main.humidity);
                     var card = $("<div>");
                     var weatherFive = $("#weatherFive");
@@ -93,7 +125,7 @@ function getDaily(city) {
 }
 
 
-
+// Event listener for button that activates search when clicked
 $("#cityBtn").on("click", function(e) {
     e.preventDefault;
     var search = $("#citySearch").val().trim();
