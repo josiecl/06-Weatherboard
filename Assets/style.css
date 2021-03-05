@@ -4,10 +4,16 @@
     text-align: center;
 }
 
-/* #weatherFive {
-    border: 1px solid black;
-} */
-
 body {
     background-color: whitesmoke;
+}
+
+#cityBtn {
+    background-color: rgb(0,0,50);
+    color: whitesmoke;
+}
+
+#clearBtn {
+    background-color: rgb(0,0,50);
+    color: whitesmoke;
 }

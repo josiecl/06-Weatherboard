@@ -111,7 +111,7 @@ function getDaily(city) {
                         uvIndex.css("color", "green");
                     }
                     else if (UVData.value < 7) {
-                        uvIndex.css("background-color", "yellow");
+                        uvIndex.css("color", "orange");
                     }
                     else {
                         uvIndex.css("color", "red");
@@ -136,4 +136,10 @@ $("#cityBtn").on("click", function(e) {
         getDaily(search);
     }
     else {}
+})
+
+$("#clearBtn").on("click", function(e) {
+    e.preventDefault();
+    localStorage.clear();
+    location.reload();
 })
