@@ -24,31 +24,11 @@ function showLocal() {
 showLocal();
 
 
-// Add event listener for click on local city
-// $(document).on("click", "#localCity", function(e) {
-//     e.preventDefault();
-//     var search = $(this).text();
-//     doSearch(search);
-// });
-
-// Same as above but tried different method
-// $(lineItem).on("click", function(e) {
-//     e.preventDefault;
-//     var search = $(lineItem).val().trim();
-//     // local.unshift(search);
-//     // localStorage.setItem("searchHistory", JSON.stringify(local));
-//     if (search) {
-//         getForecast(search);
-//         getDaily(search);
-//     }
-//     else {}
-// })
-
 // Function for getting 5-day forecast for the city
 function getForecast(city) {
     $("#weatherFive").empty();
     console.log("got here 1");
-    var queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=c2db56534504e0f832745a60ec594814&units=imperial";
+    var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=c2db56534504e0f832745a60ec594814&units=imperial";
     $.ajax({
         url: queryURL,
         method: "GET",
@@ -71,7 +51,7 @@ function getForecast(city) {
                     card.addClass("col-md-2");
                     card.addClass("card")
                     $("<h3>").text(new Date(data.list[i].dt_txt).toLocaleDateString()).appendTo(card);
-                    $("<img>").attr("src", "http://openweathermap.org/img/w/" + data.list[i].weather[0].icon + ".png").appendTo(card);
+                    $("<img>").attr("src", "https://openweathermap.org/img/w/" + data.list[i].weather[0].icon + ".png").appendTo(card);
                     $("<h5>").text("Temperature: " +  data.list[i].main.temp + " °F").appendTo(card);
                     $("<h5>").text("Humidity: " + data.list[i].main.humidity + "%").appendTo(card);
                     card.appendTo(weatherFive);
@@ -86,7 +66,7 @@ function getForecast(city) {
 // Function for getting daily weather for city
 function getDaily(city) {
     $("#currentWeather").empty();
-    var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=c2db56534504e0f832745a60ec594814&units=imperial";
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=c2db56534504e0f832745a60ec594814&units=imperial";
     $.ajax({
         url: queryURL,
         method: "GET",
@@ -94,14 +74,14 @@ function getDaily(city) {
             // console.log(weatherData);
             var currentWeatherDiv = $("#currentWeather");
             $("<h1>").text(weatherData.name).appendTo(currentWeatherDiv);
-            $("<img>").attr("src", "http://openweathermap.org/img/w/" + weatherData.weather[0].icon + ".png").appendTo(currentWeatherDiv);
+            $("<img>").attr("src", "https://openweathermap.org/img/w/" + weatherData.weather[0].icon + ".png").appendTo(currentWeatherDiv);
             $("<h3>").text("Current Temperature: " + weatherData.main.temp + " °F").appendTo(currentWeatherDiv);
             $("<h3>").text("Humidity: " + weatherData.main.humidity + "%").appendTo(currentWeatherDiv);
             $("<h3>").text("Wind Speed: " + weatherData.wind.speed + " mph").appendTo(currentWeatherDiv);
             var latitude = weatherData.coord.lat;
             var longitude = weatherData.coord.lon;
             
-            var queryUV = "http://api.openweathermap.org/data/2.5/uvi?lat=" + latitude + "&lon=" + longitude + "&appid=c2db56534504e0f832745a60ec594814";
+            var queryUV = "https://api.openweathermap.org/data/2.5/uvi?lat=" + latitude + "&lon=" + longitude + "&appid=c2db56534504e0f832745a60ec594814";
             $.ajax({
                 url: queryUV,
                 method: "GET",
